@@ -1,0 +1,62 @@
+# Requisitos da API-Cepify
+
+Este documento contém os requisitos necessários para o desenvolvimento da API de consulta de CEP utilizando Laravel.
+
+## Requisitos Técnicos
+
+1. **Linguagem de Programação**
+   - PHP 7.4 ou superior
+
+2. **Framework**
+   - Laravel 8 ou superior
+
+3. **Dependências**
+   - Composer para gerenciamento de pacotes PHP
+   - Biblioteca GuzzleHTTP (inclusa no Laravel) para fazer requisições à API externa
+
+4. **Serviços Externos**
+   - API ViaCEP: https://viacep.com.br/
+     - Serviço de consulta de dados de endereço por CEP. 
+
+## Estrutura e Funcionalidades do Backend
+
+1. **Endpoint de Consulta**
+   - Rota GET `/api/consulta-cep/{cep}`
+   - Parâmetro `cep`: aceita apenas números (formato de CEP brasileiro)
+   - Validação: Verificar se o CEP possui formato válido (somente números, 8 dígitos)
+
+2. **Tratamento de Erros**
+   - Responder com mensagens claras em caso de:
+     - CEP inválido ou mal formatado
+     - CEP não encontrado pela API ViaCEP
+     - Erro de conexão com o serviço externo
+
+3. **Resposta da API**
+   - Formato de resposta JSON com as seguintes informações:
+     - `cep`: Código postal do endereço consultado
+     - `complemento`: Informações adicionais sobre o endereço (quando aplicável)
+     - `unidade`: Campo reservado para uso futuro (quando aplicável)
+     - `bairro`: Bairro do endereço
+     - `localidade`: Cidade do endereço
+     - `uf`: Unidade Federativa (Estado) em formato de sigla
+     - `estado`: Nome completo do estado
+     - `regiao`: Região geográfica do Brasil onde o estado se localiza
+     - `ibge`: Código IBGE da cidade
+     - `gia`: Código GIA (para cidades de São Paulo)
+     - `ddd`: Código DDD do telefone para a localidade
+     - `siafi`: Código SIAFI do município
+     - Em caso de erro, retornar JSON com chave `error` e mensagem descritiva.
+
+4. **Documentação e Testes**
+   - Documentação básica no README sobre como configurar e utilizar a API
+   - Testes de unidade: Testar a rota de consulta de CEP e validação do CEP
+
+## Ambiente de Desenvolvimento
+
+1. **Servidor Local**
+   - PHP built-in server (`php artisan serve`) para rodar a aplicação localmente
+   - Opcional: Ambiente Docker configurado para Laravel
+
+2. **Ferramentas de Suporte**
+   - Insomnia ou Postman para testes de API
+   - Git para controle de versão
